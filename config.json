@@ -54,11 +54,11 @@
       "_param_enabled": "是否開啟色彩抖動 (true/false)",
       "enabled": true,
       "_param_brightness": "亮度乘數 [最暗倍率, 最亮倍率] (1.0為原亮度)",
-      "brightness": [0.3, 1.5],
+      "brightness": [0.75, 1.15],
       "_param_contrast": "對比度乘數 [最低倍率, 最高倍率] (1.0為原對比)",
-      "contrast": [0.4, 1.15],
+      "contrast": [0.90, 1.20],
       "_param_saturation": "飽和度乘數 [最灰暗倍率, 最鮮豔倍率] (1.0為原飽和度)",
-      "saturation": [0.3, 2.3]
+      "saturation": [0.70, 0.90]
     },
 
     "_comment_blur": "🌫️ 高斯模糊 | [原理] 像素與周圍進行高斯權重平均 | [殺傷力] ⭐⭐ | [效果] 失去銳利的建築邊緣細節 | [範例] 無人機鏡頭沒對到焦，或遇到高空水氣",
@@ -66,9 +66,9 @@
       "_param_enabled": "是否開啟模糊 (true/false)",
       "enabled": true,
       "_param_prob": "觸發模糊的機率",
-      "prob": 0.3,
+      "prob": 0.05,
       "_param_radius": "模糊半徑的 [最小值, 最大值] (數值越大越糊)",
-      "radius": [0.2, 0.6]
+      "radius": [0.1, 0.2]
     },
 
     "_comment_vignette": "🕳️ 鏡頭暗角 | [原理] 根據距中心點半徑降低亮度 | [殺傷力] ⭐⭐ | [效果] 四周變黑，強迫視線聚焦中央 | [範例] 廉價無人機廣角鏡頭邊緣失光現象",
@@ -86,17 +86,17 @@
       "_param_enabled": "是否開啟銳化 (true/false)",
       "enabled": true,
       "_param_prob": "觸發極度銳化的機率",
-      "prob": 0.2
+      "prob": 0.15
     },
 
     "_comment_color_temp": "🌅 色溫偏移 | [原理] RGB 通道的紅藍比例偏移 | [殺傷力] ⭐⭐ | [效果] 畫面整體蒙上一層暖黃或冷藍色調 | [範例] 夕陽下的黃金時刻，或清晨高山的冷霧",
     "color_temp": {
       "_param_enabled": "是否開啟色溫偏移 (true/false)",
-      "enabled": false,
+      "enabled": true,
       "_param_prob": "觸發色溫偏移的機率",
-      "prob": 0.25,
+      "prob": 0.3,
       "_param_intensity": "色溫覆蓋的強度 [最輕微, 最嚴重]",
-      "intensity": [0.1, 0.4]
+      "intensity": [0.1, 0.3]
     },
 
     "_comment_lens_dust": "🦠 鏡頭入塵 | [原理] 疊加隨機模糊半透明暗斑 | [殺傷力] ⭐⭐ | [效果] 局部視線受阻、對比下降 | [範例] 無人機鏡頭沾到灰塵或乾掉的水滴",
@@ -151,9 +151,9 @@
       "_param_enabled": "是否開啟雜訊 (true/false)",
       "enabled": false,
       "_param_prob": "觸發雜訊的機率",
-      "prob": 0.25,
+      "prob": 0.5,
       "_param_sigma": "雜訊標準差的 [最輕微值, 最嚴重值] (數值越大雪花越多)",
-      "sigma": [2.0, 5.0]
+      "sigma": [1.0, 3.5]
     },
 
     "_comment_posterize": "🎨 色階壓縮 | [原理] 減少色彩深度位元數 (如 8-bit 降至 2-bit) | [殺傷力] ⭐⭐⭐ | [效果] 平滑漸層變成一圈一圈的生硬色帶 (Banding) | [範例] 衛星儲存空間不足，強行降色階儲存",
@@ -250,11 +250,11 @@
     "_comment_jpeg": "📉 JPEG壓縮失真 | [原理] 離散餘弦變換(DCT)丟棄高頻資訊 | [殺傷力] ⭐⭐⭐⭐ | [效果] 邊緣出現明顯色塊與波紋偽影(Artifacts) | [範例] 透過極低頻寬的無線電傳輸圖檔",
     "jpeg_compression": {
       "_param_enabled": "是否開啟壓縮失真 (true/false)",
-      "enabled": false,
+      "enabled": true,
       "_param_prob": "觸發嚴重壓縮的機率",
-      "prob": 0.25,
+      "prob": 0.4,
       "_param_quality": "JPEG存檔品質的 [最爛值, 最好值] (範圍 1~100，低於20會有明顯色塊)",
-      "quality": [5, 15]
+      "quality": [30, 80]
     },
 
     "_comment_channel_shuffle": "🔀 通道洗牌 | [原理] RGB 順序打亂 (如變成 BGR) | [殺傷力] ⭐⭐⭐⭐ | [效果] 樹變藍色、海變紅色 | [範例] 防範 AI 偷懶只靠「綠色」來判斷「森林」的惡意考題",
