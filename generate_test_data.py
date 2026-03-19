@@ -14,6 +14,7 @@ from pathlib import Path
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from tqdm import tqdm
 import numpy as np
+import cv2
 from PIL import Image, ImageEnhance, ImageFilter, ImageOps, ImageDraw
 
 VALID_EXTS = {".png", ".jpg", ".jpeg", ".bmp", ".tif", ".tiff"}
@@ -548,16 +549,36 @@ def generate_one_image(img_path, output_root, config, rng):
             # ==========================================
             if rng.random() < object_crop_prob:
                 # 🎯 [75% 機率] 萃取特定物件 (Positive Sample)
+                # 🎯 [75% 機率] 萃取特定物件 (Positive Sample)
                 W, H = scaled_img.size
                 
-                # 👇👇👇 【請在這裡換成你真實讀取物件座標的邏輯】 👇👇👇
-                # 例如： x, y, w, h = get_yolo_bbox(stem)
-                # 這裡暫時用大圖的正中心點做示範：
-                obj_cx = W // 2  
-                obj_cy = H // 2
-                # 👆👆👆 -------------------------------------- 👆👆👆
+                # --- 自動特徵尋找系統 (Edge Center of Mass) ---
                 
-                # 根據物件中心點，推算裁切框的左上角 (x, y)，並防止超出邊界防呆
+                # 1. 將 PIL 圖片轉為 OpenCV 灰階矩陣
+                img_cv = np.array(scaled_img)
+                # 確保圖片是 RGB 格式再轉灰階
+                if len(img_cv.shape) == 3 and img_cv.shape[2] == 3:
+                    img_gray = cv2.cvtColor(img_cv, cv2.COLOR_RGB2GRAY)
+                else:
+                    img_gray = img_cv # 已經是灰階
+                
+                # 2. 使用 Canny 演算法抓取所有「輪廓與線條」
+                edges = cv2.Canny(img_gray, 50, 150)
+                
+                # 3. 計算畫面上所有線條的「物理重心」
+                M = cv2.moments(edges)
+                
+                # 防呆：確保畫面不是完全空白的
+                if M["m00"] != 0:
+                    obj_cx = int(M["m10"] / M["m00"]) # 線條密集的 X 軸中心
+                    obj_cy = int(M["m01"] / M["m00"]) # 線條密集的 Y 軸中心
+                else:
+                    # 如果真的什麼線條都沒有，才無奈退回正中心
+                    obj_cx = W // 2  
+                    obj_cy = H // 2
+                # ---------------------------------------------
+                
+                # 根據計算出的物件中心點，推算裁切框的左上角 (x, y)，並防止超出邊界
                 x = int(max(0, min(obj_cx - size / 2, W - size)))
                 y = int(max(0, min(obj_cy - size / 2, H - size)))
                 
