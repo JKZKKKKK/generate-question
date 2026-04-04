@@ -1,3 +1,10 @@
+# ==============================================================================
+# AUTH: Zk
+# DATE: 2026-04-04
+# VER:  1.0
+# DESC: Auto training pipeline for AI discriminator.
+# ==============================================================================
+
 import subprocess
 import shutil
 import os
@@ -38,24 +45,22 @@ if __name__ == "__main__":
     # 目標資料夾：存放要給裁判看的假圖
     target_fake_dir = "./discriminator_dataset/fake"
     target_fake_dir2 = "./augmented_fake"
+    target_fake_dir3 = "./bad_data_quarantine"
 
-    # --- 步驟 0：拔除雜草 (清理舊檔案) ---
+    # --- S0: CLR ENV ---
     print("🧹 【步驟 0】確保環境乾淨...")
     clean_folder(target_fake_dir)
     clean_folder(target_fake_dir2)
+    clean_folder(target_fake_dir3)
     print("")
 
-    # --- 步驟 1：抽樣假資料 ---
+    # --- S1: SMPL FAKE ---
     print("🎲 【步驟 1】開始抽取新的假圖...")
     run_script("sample_fake_data.py")
 
-    # --- 步驟 2：訓練 AI 裁判 ---
+    # --- S2: TRN DISC ---
     print("⚖️ 【步驟 2】呼叫 AI 裁判開庭...")
     run_script("train_discriminator.py")
-
-#    # --- 步驟 3：毀屍滅跡 (刪除原檔案) ---
-#    print("🔥 【步驟 3】訓練結束，執行毀屍滅跡...")
-#    clean_folder(target_fake_dir)
 
     end_time = time.time()
     print("\n========================================")

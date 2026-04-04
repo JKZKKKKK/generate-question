@@ -1,0 +1,22 @@
+# PyTorch 深度學習框架 (用於 train_discriminator.py 訓練 AI 裁判)
+torch>=2.0.0
+torchvision>=0.15.0
+
+# 影像處理與矩陣運算 (用於 generate_test_data.py 與 color_analyzer.py)
+opencv-python>=4.7.0
+Pillow>=9.5.0
+numpy>=1.24.0
+
+# 終端機進度條顯示 (用於 generate_test_data.py 顯示多核心產圖進度)
+tqdm>=4.65.0
+
+# ================= 🚀 擴充建議 (分析與評估用) =================
+
+# 訓練曲線與特徵視覺化
+matplotlib>=3.7.0
+
+# 混淆矩陣與 Precision/Recall 評估
+scikit-learn>=1.2.0
+
+# PyTorch 網頁版訓練監控面板
+tensorboard>=2.12.0

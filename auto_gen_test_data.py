@@ -1,16 +1,29 @@
+# ==============================================================================
+# AUTH: Zk
+# DATE: 2026-04-04
+# VER:  1.0
+# DESC: Automated pipeline for generating, flattening, and zipping test datasets.
+# ==============================================================================
+
 import os
 import sys
 import subprocess
 import shutil
+import stat
 
-# ================= 💡 超強防呆：自動導航系統 =================
+# 定義一個錯誤處理函式：如果遇到存取被拒（通常是唯讀），就強制賦予寫入權限再砍一次
+def remove_readonly(func, path, _):
+    os.chmod(path, stat.S_IWRITE)
+    func(path)
+
+# ================= AUTO NAV =================
 script_dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(script_dir)
 print(f"📂 已自動切換工作目錄至: {os.getcwd()}")
 
 py_exe = sys.executable
 
-# ================= 路徑設定區 =================
+# ================= PATH CFG =================
 gen_script = "generate_test_data.py"
 flatten_script = "flatten_and_rename.py"
 
@@ -21,13 +34,13 @@ final_test_dir = os.path.join("data", "fin_test")    # 最終考卷
 zip_fin_test_name = os.path.join("data", "fin_test") 
 zip_test_name = os.path.join("data", "test")
 
-# ================= 🧹 新增：自動大掃除 (清空舊資料) =================
+# ================= AUTO CLEAN =================
 print("\n🧹 正在清理上次生成的舊資料...")
 
 # 1. 清理舊資料夾
 for d in [generated_test_dir, final_test_dir]:
     if os.path.exists(d):
-        shutil.rmtree(d)  # 整個資料夾連同裡面的檔案一起砍掉
+        shutil.rmtree(d, onerror=remove_readonly)  # 整個資料夾連同裡面的檔案一起砍掉
         print(f"🗑️  已刪除舊資料夾: {d}")
 
 # 2. 清理舊壓縮檔
@@ -38,9 +51,7 @@ for f in [f"{zip_fin_test_name}.zip", f"{zip_test_name}.zip"]:
 
 print("✨ 清理完畢！準備開始生成全新測資。\n")
 
-
-# ================= 指令清單 =================
-# ================= 指令清單 =================
+# ================= CMD LIST =================
 commands = [
     [
         py_exe, gen_script,
@@ -74,7 +85,7 @@ else:
     print(f"\n[{'='*50}]")
     print(f"🎉 測資一鍵生成完畢！")
     
-    # ================= 自動壓縮打包步驟 =================
+    # ================= AUTO ZIP =================
     print(f"\n📦 正在將 [fin_test] 連同資料夾外殼壓縮成 ZIP 檔，請稍候...")
     shutil.make_archive(zip_fin_test_name, 'zip', root_dir='data', base_dir='fin_test')
     print(f"✅ 完成！檔案已儲存為: {zip_fin_test_name}.zip")

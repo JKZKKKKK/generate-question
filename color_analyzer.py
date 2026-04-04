@@ -1,3 +1,10 @@
+# ==============================================================================
+# AUTH: Zk
+# DATE: 2026-04-04
+# VER:  1.0
+# DESC: Color and advanced feature analyzer for image datasets.
+# ==============================================================================
+
 import os
 import cv2
 import numpy as np
@@ -9,7 +16,7 @@ def analyze_folder(folder_path):
         'brightness': [], 'contrast': [],
         'R': [], 'G': [], 'B': [],
         'saturation': [], 'sharpness': [], 'noise_level': [],
-        # --- 🏆 比賽日新增的高階特徵 ---
+        # --- ADV FEAT ---
         'edge_density': [],  # 邊緣/紋理密度 (%)
         'dark_ratio': [],    # 極暗區域比例 (%)
         'highlight_ratio': []# 極亮/過曝比例 (%)
@@ -42,7 +49,7 @@ def analyze_folder(folder_path):
         metrics['sharpness'].append(cv2.Laplacian(img_gray, cv2.CV_64F).var())
         metrics['noise_level'].append(np.std(img_gray))
 
-        # --- 🏆 新增的分析項目 ---
+        # --- NEW METRICS ---
         # 1. 邊緣密度 (使用 Canny 偵測，計算邊緣像素佔整體的百分比)
         edges = cv2.Canny(img_gray, 100, 200)
         metrics['edge_density'].append(np.mean(edges > 0) * 100)
@@ -102,7 +109,7 @@ def main():
     elif sharp_ratio > 1.2:
         print(f"👉 銳利度 (Sharpness) : 你的圖太糊！請減小 blur 範圍，或提高 edge_enhance 機率。")
 
-    # 🏆 新特徵戰術建議
+    # --- ADV TACTIC RECOM ---
     edge_diff = official_stats['edge_density'] - my_stats['edge_density']
     if edge_diff > 3.0:
         print(f"🛡️ [紋理缺乏] 官方圖有更多的建築/線條紋理。考慮減少 blur，或輕微開啟 `noise` (雜訊) 增加顆粒感。")

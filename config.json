@@ -14,13 +14,13 @@
     "seed": 42,
     
     "_param_std_threshold": "影像標準差閾值。低於此值代表圖片太過單一(例如切到純海面或純黑邊)，將被丟棄",
-    "std_threshold": 12.0,
+    "std_threshold": 8.0,
     
     "_param_max_attempts": "為了達到上述的標準差閾值，每張圖片最多允許重試裁切的次數",
     "max_attempts": 15,
 
     "_comment_object_crop": "🎯 萃取特定物件的機率 (0.75 代表 75% 針對物件裁切，25% 隨機裁背景)",
-    "object_crop_prob": 0.9
+    "object_crop_prob": 0.65
   },
 
   "_comment_augmentations": "========== 【全維度擾動設定 (依殺傷力排序)】 ==========",
@@ -33,7 +33,7 @@
       "_param_enabled": "是否開啟尺度變換 (true/false)",
       "enabled": true,
       "_param_scales": "允許隨機抽取的放大倍率清單 (1.0 代表維持原圖大小)",
-      "scales": [1.0, 1.1, 1.2, 1.4]
+      "scales": [0.8, 1.0, 1.2, 1.4]
     },
 
 
@@ -44,9 +44,9 @@
       "_param_enabled": "是否開啟翻轉 (true/false)",
       "enabled": true,
       "_param_h_prob": "發生「水平翻轉」(左右對調) 的機率",
-      "h_prob": 0.3,
+      "h_prob": 0.5,
       "_param_v_prob": "發生「垂直翻轉」(上下對調) 的機率",
-      "v_prob": 0.3
+      "v_prob": 0.5
     },
 
     "_comment_color": "🎨 色彩抖動 | [原理] 矩陣乘法改變亮度/對比/飽和度 | [殺傷力] ⭐⭐ | [效果] 讓圖片變極亮/極暗/鮮豔/死灰 | [範例] 正午強光、黃昏昏暗或陰天背光",
@@ -54,11 +54,11 @@
       "_param_enabled": "是否開啟色彩抖動 (true/false)",
       "enabled": true,
       "_param_brightness": "亮度乘數 [最暗倍率, 最亮倍率] (1.0為原亮度)",
-      "brightness": [0.75, 1.15],
+      "brightness": [0.5, 1.5],
       "_param_contrast": "對比度乘數 [最低倍率, 最高倍率] (1.0為原對比)",
-      "contrast": [0.90, 1.20],
-      "_param_saturation": "飽和度乘數 [最灰暗倍率, 最鮮豔倍率] (1.0為原飽和度)",
-      "saturation": [0.70, 0.90]
+      "contrast": [0.5, 1.5],
+      "_param_saturation": "飽和度乘數 [最灰暗倍率, 最鮮豔倍率] (1.0為原飽滿度)",
+      "saturation": [0.4, 1.6]
     },
 
     "_comment_blur": "🌫️ 高斯模糊 | [原理] 像素與周圍進行高斯權重平均 | [殺傷力] ⭐⭐ | [效果] 失去銳利的建築邊緣細節 | [範例] 無人機鏡頭沒對到焦，或遇到高空水氣",
@@ -66,9 +66,9 @@
       "_param_enabled": "是否開啟模糊 (true/false)",
       "enabled": true,
       "_param_prob": "觸發模糊的機率",
-      "prob": 0.05,
+      "prob": 0.3,
       "_param_radius": "模糊半徑的 [最小值, 最大值] (數值越大越糊)",
-      "radius": [0.1, 0.2]
+      "radius": [0.5, 1.0]
     },
 
     "_comment_vignette": "🕳️ 鏡頭暗角 | [原理] 根據距中心點半徑降低亮度 | [殺傷力] ⭐⭐ | [效果] 四周變黑，強迫視線聚焦中央 | [範例] 廉價無人機廣角鏡頭邊緣失光現象",
@@ -76,9 +76,9 @@
       "_param_enabled": "是否開啟暗角 (true/false)",
       "enabled": false,
       "_param_prob": "觸發產生暗角的機率",
-      "prob": 0.3,
+      "prob": 0.4,
       "_param_strength": "暗角變黑的強度 [最弱, 最強]",
-      "strength": [0.6, 1.2]
+      "strength": [0.8, 1.5]
     },
 
     "_comment_edge_enhance": "🔍 極度銳化 | [原理] 強化邊緣對比的卷積濾波器 | [殺傷力] ⭐⭐ | [效果] 建築邊緣變得超級突兀、不自然發亮 | [範例] 影像處理軟體過度銳化產生的「光暈」瑕疵",
@@ -86,17 +86,17 @@
       "_param_enabled": "是否開啟銳化 (true/false)",
       "enabled": true,
       "_param_prob": "觸發極度銳化的機率",
-      "prob": 0.15
+      "prob": 0.2
     },
 
     "_comment_color_temp": "🌅 色溫偏移 | [原理] RGB 通道的紅藍比例偏移 | [殺傷力] ⭐⭐ | [效果] 畫面整體蒙上一層暖黃或冷藍色調 | [範例] 夕陽下的黃金時刻，或清晨高山的冷霧",
     "color_temp": {
       "_param_enabled": "是否開啟色溫偏移 (true/false)",
-      "enabled": true,
+      "enabled": false,
       "_param_prob": "觸發色溫偏移的機率",
-      "prob": 0.3,
+      "prob": 0.4,
       "_param_intensity": "色溫覆蓋的強度 [最輕微, 最嚴重]",
-      "intensity": [0.1, 0.3]
+      "intensity": [0.2, 0.5]
     },
 
     "_comment_lens_dust": "🦠 鏡頭入塵 | [原理] 疊加隨機模糊半透明暗斑 | [殺傷力] ⭐⭐ | [效果] 局部視線受阻、對比下降 | [範例] 無人機鏡頭沾到灰塵或乾掉的水滴",
@@ -104,11 +104,11 @@
       "_param_enabled": "是否開啟鏡頭入塵 (true/false)",
       "enabled": false,
       "_param_prob": "觸發入塵的機率",
-      "prob": 0.2,
+      "prob": 0.3,
       "_param_count": "灰塵斑點數量 [最少, 最多]",
-      "count": [2, 6],
+      "count": [3, 8],
       "_param_size": "斑點半徑大小 [最小, 最大]",
-      "size": [5, 15]
+      "size": [8, 20]
     },
 
     "_comment_gradient_light": "🌗 漸層光照 | [原理] 疊加線性明暗漸層矩陣 | [殺傷力] ⭐⭐ | [效果] 畫面一側偏暗，另一側偏亮 | [範例] 太陽斜射造成的大地受光不均",
@@ -116,9 +116,9 @@
       "_param_enabled": "是否開啟漸層光照 (true/false)",
       "enabled": false,
       "_param_prob": "觸發漸層光的機率",
-      "prob": 0.25,
+      "prob": 0.35,
       "_param_intensity": "明暗落差的強度 [最弱, 最強]",
-      "intensity": [0.2, 0.6]
+      "intensity": [0.3, 0.7]
     },
 
 
@@ -133,27 +133,27 @@
       "_param_shear_enabled": "是否額外開啟空間錯切 (透視扭曲)",
       "shear_enabled": true,
       "_param_shear_prob": "觸發空間錯切的機率 (0.0 ~ 1.0)",
-      "shear_prob": 0.3,
+      "shear_prob": 0.4,
       "_param_shear_range": "X軸與Y軸扭曲程度的 [下限, 上限]",
-      "shear_range": [-0.3, 0.3]
+      "shear_range": [-0.15, 0.15]
     },
 
     "_comment_grayscale": "🌑 強制灰階 | [原理] RGB 通道依權重加總轉為單通道 | [殺傷力] ⭐⭐⭐ | [效果] 抹除顏色特徵，強迫 AI 只能看形狀 | [範例] 黑白老舊衛星照片或夜視儀初步成像",
     "grayscale": {
       "_param_enabled": "是否開啟強制灰階 (true/false)",
-      "enabled": false,
+      "enabled": true,
       "_param_prob": "整張圖片變成純黑白的機率",
-      "prob": 0.15
+      "prob": 0.2
     },
 
     "_comment_noise": "📺 高斯雜訊 | [原理] 疊加常態分配的隨機數值 | [殺傷力] ⭐⭐⭐ | [效果] 滿畫面不規則的細小雪花點 | [範例] 夜間或極低光環境下強行拉高 ISO 產生的噪點",
     "noise": {
       "_param_enabled": "是否開啟雜訊 (true/false)",
-      "enabled": false,
+      "enabled": true,
       "_param_prob": "觸發雜訊的機率",
-      "prob": 0.5,
+      "prob": 0.35,
       "_param_sigma": "雜訊標準差的 [最輕微值, 最嚴重值] (數值越大雪花越多)",
-      "sigma": [1.0, 3.5]
+      "sigma": [1.0, 3.0]
     },
 
     "_comment_posterize": "🎨 色階壓縮 | [原理] 減少色彩深度位元數 (如 8-bit 降至 2-bit) | [殺傷力] ⭐⭐⭐ | [效果] 平滑漸層變成一圈一圈的生硬色帶 (Banding) | [範例] 衛星儲存空間不足，強行降色階儲存",
@@ -161,9 +161,9 @@
       "_param_enabled": "是否開啟色階壓縮 (true/false)",
       "enabled": false,
       "_param_prob": "觸發壓縮的機率",
-      "prob": 0.2,
+      "prob": 0.25,
       "_param_bits": "保留的色彩位元數 [最低, 最高] (1~8，1代表極端色塊)",
-      "bits": [2, 4]
+      "bits": [4, 5]
     },
 
     "_comment_clouds": "☁️ 雲霧模擬 | [原理] 疊加半透明的白色柔和多邊形 | [殺傷力] ⭐⭐⭐ | [效果] 局部對比大幅下降，一片白茫茫 | [範例] 高空薄雲剛好飄過拍攝區域",
@@ -171,11 +171,11 @@
       "_param_enabled": "是否開啟雲霧 (true/false)",
       "enabled": false,
       "_param_prob": "觸發產生雲霧的機率",
-      "prob": 0.25,
+      "prob": 0.3,
       "_param_count": "產生雲霧的數量 [最少幾朵, 最多幾朵]",
-      "count": [1, 3],
+      "count": [1, 4],
       "_param_radius": "單朵雲霧的半徑大小 [最小, 最大]",
-      "radius": [20, 50]
+      "radius": [15, 60]
     },
 
     "_comment_shadows": "🌘 局部陰影 | [原理] 疊加半透明的黑色多邊形 | [殺傷力] ⭐⭐⭐ | [效果] 局部極暗，難以辨識暗部細節 | [範例] 畫面外有超級高樓或巨大積雨雲投下的陰影",
@@ -183,11 +183,11 @@
       "_param_enabled": "是否開啟陰影 (true/false)",
       "enabled": false,
       "_param_prob": "觸發產生陰影的機率",
-      "prob": 0.25,
+      "prob": 0.3,
       "_param_count": "產生陰影區塊的數量 [最少幾塊, 最多幾塊]",
-      "count": [1, 2],
+      "count": [1, 3],
       "_param_alpha": "陰影的不透明度 [最淡, 最黑] (0~255)",
-      "alpha": [80, 160]
+      "alpha": [100, 180]
     },
 
     "_comment_scanlines": "📡 掃描線缺失 | [原理] 強制將特定橫行/直行像素歸零 | [殺傷力] ⭐⭐⭐ | [效果] 畫面出現斑馬線般的條紋干擾 | [範例] 衛星推掃式感測器 (Pushbroom) 陣列壞點",
@@ -195,11 +195,11 @@
       "_param_enabled": "是否開啟掃描線缺失 (true/false)",
       "enabled": false,
       "_param_prob": "觸發掃描線缺失的機率",
-      "prob": 0.2,
+      "prob": 0.25,
       "_param_count": "產生幾條壞點黑/白線 [最少, 最多]",
-      "count": [2, 5],
+      "count": [3, 6],
       "_param_width": "每條線的粗細像素 [最細, 最粗]",
-      "width": [1, 3]
+      "width": [1, 4]
     },
 
     "_comment_chromatic": "🌈 色差色散 | [原理] 將 R 通道和 B 通道向不同方向微調位移 | [殺傷力] ⭐⭐⭐ | [效果] 建築邊緣出現紅綠/藍黃重影 | [範例] 便宜相機鏡頭邊緣常出現的紫邊現象",
@@ -207,9 +207,9 @@
       "_param_enabled": "是否開啟色差 (true/false)",
       "enabled": false,
       "_param_prob": "觸發色差的機率",
-      "prob": 0.25,
+      "prob": 0.3,
       "_param_shift": "RGB通道偏移的像素距離 [最小偏移, 最大偏移]",
-      "shift": [1, 3]
+      "shift": [2, 5]
     },
 
     "_comment_rain_streaks": "🌧️ 動態雨絲 | [原理] 繪製傾斜的半透明發光線條並模糊 | [殺傷力] ⭐⭐⭐ | [效果] 滿佈方向性干擾線條 | [範例] 惡劣天氣下無人機強行空拍的雨絲",
@@ -217,11 +217,11 @@
       "_param_enabled": "是否開啟雨絲 (true/false)",
       "enabled": false,
       "_param_prob": "觸發下雨的機率",
-      "prob": 0.2,
+      "prob": 0.25,
       "_param_drops": "雨絲的數量 [最少, 最多]",
-      "drops": [30, 100],
+      "drops": [40, 120],
       "_param_length": "雨絲的長度 [最短, 最長]",
-      "length": [10, 25]
+      "length": [15, 35]
     },
 
     "_comment_salt_pepper": "🧂 椒鹽壞點 | [原理] 隨機將極少數像素強制設為0或255 | [殺傷力] ⭐⭐⭐ | [效果] 畫面出現尖銳的純黑與純白壞點 | [範例] CMOS 感測器老化死點或位元錯誤",
@@ -229,9 +229,9 @@
       "_param_enabled": "是否開啟椒鹽壞點 (true/false)",
       "enabled": false,
       "_param_prob": "觸發壞點的機率",
-      "prob": 0.2,
+      "prob": 0.25,
       "_param_amount": "壞點佔整張圖像素的比例 [最低, 最高]",
-      "amount": [0.01, 0.04]
+      "amount": [0.02, 0.06]
     },
 
 
@@ -241,9 +241,7 @@
     "pixelate": {
       "_param_enabled": "是否開啟馬賽克 (true/false)",
       "enabled": false,
-      "_param_prob": "觸發馬賽克的機率",
       "prob": 0.25,
-      "_param_factor": "縮小比例的 [極限值, 輕微值] (0.1代表先縮小至10%再放大，破壞力極強)",
       "factor": [0.1, 0.25]
     },
 
@@ -252,99 +250,73 @@
       "_param_enabled": "是否開啟壓縮失真 (true/false)",
       "enabled": true,
       "_param_prob": "觸發嚴重壓縮的機率",
-      "prob": 0.4,
+      "prob": 0.15,
       "_param_quality": "JPEG存檔品質的 [最爛值, 最好值] (範圍 1~100，低於20會有明顯色塊)",
-      "quality": [30, 80]
+      "quality":[40, 80]
     },
 
-    "_comment_channel_shuffle": "🔀 通道洗牌 | [原理] RGB 順序打亂 (如變成 BGR) | [殺傷力] ⭐⭐⭐⭐ | [效果] 樹變藍色、海變紅色 | [範例] 防範 AI 偷懶只靠「綠色」來判斷「森林」的惡意考題",
+    "_comment_channel_shuffle": "🔀 通道洗牌 | [原理] RGB 順序打亂 (如變成 BGR)",
     "channel_shuffle": {
-      "_param_enabled": "是否開啟通道洗牌 (true/false)",
       "enabled": false,
-      "_param_prob": "觸發顏色互換的機率",
       "prob": 0.2
     },
 
-    "_comment_solarize": "☢️ 輻射反轉 | [原理] 將高於閾值的像素反相 (255-值) | [殺傷力] ⭐⭐⭐⭐ | [效果] 亮部變黑、暗部維持，如核爆閃光 | [範例] 感測器嚴重過曝導致數值溢位 (Overflow)",
+    "_comment_solarize": "☢️ 輻射反轉 | [原理] 將高於閾值的像素反相 (255-值)",
     "solarize": {
-      "_param_enabled": "是否開啟輻射反轉 (true/false)",
       "enabled": false,
-      "_param_prob": "觸發反轉的機率",
       "prob": 0.2,
-      "_param_threshold": "亮度觸發閾值 [下限, 上限] (0~255，像素亮度超過此值就會變黑反相)",
       "threshold": [128, 200]
     },
 
-    "_comment_emboss": "🗿 浮雕化 | [原理] 計算相鄰像素差值並加上中性灰 | [殺傷力] ⭐⭐⭐⭐ | [效果] 變成灰白石板雕刻，只有邊緣凸起 | [範例] 純粹的邊緣檢測，測試 AI 對幾何輪廓的依賴",
+    "_comment_emboss": "🗿 浮雕化 | [原理] 計算相鄰像素差值並加上中性灰",
     "emboss": {
-      "_param_enabled": "是否開啟浮雕化 (true/false)",
       "enabled": false,
-      "_param_prob": "觸發浮雕效果的機率",
       "prob": 0.15
     },
 
-    "_comment_sun_glare": "☀️ 太陽耀光 | [原理] 角落疊加高亮度的漸層光暈 | [殺傷力] ⭐⭐⭐⭐ | [效果] 局部細節完全被強光洗白 (過曝) | [範例] 鏡頭直對著太陽或湖面強烈反光拍攝",
+    "_comment_sun_glare": "☀️ 太陽耀光 | [原理] 角落疊加高亮度的漸層光暈",
     "sun_glare": {
-      "_param_enabled": "是否開啟耀光 (true/false)",
       "enabled": false,
-      "_param_prob": "觸發產生強光的機率",
       "prob": 0.2
     },
 
-    "_comment_moire": "🕸️ 摩爾紋 | [原理] 疊加 2D 正弦波紋 | [殺傷力] ⭐⭐⭐⭐ | [效果] 滿版水波狀明暗條紋，摧毀規律紋理 | [範例] 感光元件網格與密集屋頂瓦片產生的空間干涉",
+    "_comment_moire": "🕸️ 摩爾紋 | [原理] 疊加 2D 正弦波紋",
     "moire_pattern": {
-      "_param_enabled": "是否開啟摩爾紋 (true/false)",
       "enabled": false,
-      "_param_prob": "觸發摩爾紋的機率",
       "prob": 0.2,
-      "_param_freq": "正弦波紋的頻率密集度 [最疏, 最密]",
       "freq": [0.1, 0.4],
-      "_param_intensity": "波紋明暗的對比強度 [最弱, 最強]",
       "intensity": [0.1, 0.3]
     },
 
-    "_comment_grid_dropout": "🁢 封包遺失 | [原理] 隨機挖除數十個極小的像素方塊 | [殺傷力] ⭐⭐⭐⭐ | [效果] 畫面像蟲蛀一樣佈滿微小黑洞 | [範例] 數位訊號從太空傳回地球時遇到電離層干擾",
+    "_comment_grid_dropout": "🁢 封包遺失 | [原理] 隨機挖除數十個極小的像素方塊",
     "grid_dropout": {
-      "_param_enabled": "是否開啟封包遺失 (true/false)",
       "enabled": false,
-      "_param_prob": "觸發產生遺失破洞的機率",
       "prob": 0.25,
-      "_param_holes": "產生微小破洞的數量 [最少破幾個, 最多破幾個]",
       "holes": [10, 40],
-      "_param_hole_size": "單個破洞的長寬大小 [最小, 最大]",
       "hole_size": [3, 8]
     },
 
 
     "====================_5_STARS_====================": "【⭐⭐⭐⭐⭐ 煉獄大魔王】連人類肉眼都難以辨識的絕對領域 (目前關閉)",
 
-    "_comment_cutout": "⬛ 實體遮擋 | [原理] 將畫面一塊區域強制覆蓋為全黑 | [殺傷力] ⭐⭐⭐⭐⭐ | [效果] 關鍵地標或建築直接少掉一大塊 | [範例] 資料遺失、檔案損毀，或實體被巨型不可視物遮蔽",
+    "_comment_cutout": "⬛ 實體遮擋 | [原理] 將畫面一塊區域強制覆蓋為全黑",
     "cutout": {
-      "_param_enabled": "是否開啟遮擋 (true/false)",
       "enabled": false,
-      "_param_prob": "觸發產生黑色遮擋塊的機率",
       "prob": 0.3,
-      "_param_area_ratio": "黑色區塊佔整張圖片面積的 [最小比例, 最大比例]",
       "area_ratio": [0.05, 0.15],
-      "_param_aspect_ratio": "黑色區塊的長寬比 [最扁, 最長]",
       "aspect_ratio": [0.5, 2.0]
     },
 
-    "_comment_motion_blur": "☄️ 運動拖影 | [原理] 單一方向的像素平移疊加 | [殺傷力] ⭐⭐⭐⭐⭐ | [效果] 建築物朝隨機一側拉長糊掉 | [範例] 無人機高速移動中按下快門，快門速度跟不上",
+    "_comment_motion_blur": "☄️ 運動拖影 | [原理] 單一方向的像素平移疊加",
     "motion_blur": {
-      "_param_enabled": "是否開啟運動拖影 (true/false)",
       "enabled": false,
-      "_param_prob": "觸發拖影的機率",
       "prob": 0.2,
-      "_param_kernel_size": "拖影拉長的長度 [最短, 最長]",
       "kernel_size": [3, 8]
     },
 
-    "_comment_false_color": "🔴 假色模式 | [原理] 通道反相或特殊重組加強 | [殺傷力] ⭐⭐⭐⭐⭐ | [效果] 植物變鮮紅、水變黑，完全顛覆常理 | [範例] 多光譜衛星 (如 NDVI 植被指數) 或熱成像圖",
+    "_comment_false_color": "🔴 假色模式 | [原理] 通道反相或特殊重組加強",
     "false_color": {
-      "_param_enabled": "是否開啟假色 (true/false)",
       "enabled": false,
-      "_param_prob": "觸發假色模式的機率",
       "prob": 0.15
     }
 

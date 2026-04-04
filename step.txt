@@ -1,0 +1,47 @@
+⚡ AI 甲子園 - 極簡快速上手指南
+🛠️ 步驟 0：準備工作
+打開終端機（Terminal），安裝必備套件：
+
+Bash
+pip install -r requirement.txt
+把官方給的真實地標圖片，全部丟進 data/landmarks/ 資料夾裡。
+
+🎮 步驟 1：調整大魔王技能 (設定檔)
+打開 config.json 檔案。
+
+想要什麼干擾特效（例如：馬賽克、模糊、反轉），就把裡面的 "enabled" 改成 true。
+
+不想要的特效，就改成 false。
+
+💥 步驟 2：一鍵產出假圖 (出考卷)
+在終端機輸入：
+
+Bash
+python auto_gen_test_data.py
+結果：程式會自動幫你生成一堆假圖，並且打包成 fin_test.zip 跟 test.zip。這就是你要拿去比賽/交件的測資。
+
+🧠 步驟 3：訓練你的 AI 裁判
+把你剛剛做出來覺得滿意的假圖，放進 discriminator_dataset/all_fakes/ 資料夾，然後輸入：
+
+Bash
+python auto_pipline.py
+結果：程式會自動抽樣 1000 張圖來訓練 AI。
+
+注意：如果你的假圖「假得太明顯」，AI 會直接把它踢到 bad_data_quarantine/（隔離區）不理它。
+
+🔍 步驟 4：健檢你的假圖 (戰術分析)
+想知道你做的圖跟官方真圖差在哪？輸入：
+
+Bash
+python color_analyzer.py
+結果：終端機會直接告訴你結論，例如「你的圖太亮」、「邊緣太銳利」，你可以根據這些提示，回去步驟 1 修改 config.json。
+
+📁 重要資料夾說明
+data/landmarks/：存放原始真圖的地方。
+
+data/fin_test/：展平後、準備繳交的最終測資資料夾（會有對應的 mapping.csv）。
+
+discriminator_dataset/fake/：用來存放所有生成出來的假圖，供抽樣訓練使用。
+discriminator_dataset/real/：official question
+
+bad_data_quarantine/：隔離區。如果您的圖片出現在這裡，代表干擾開得太誇張了，被 AI 一眼看穿，建議去看看裡面的圖長什麼樣子。
